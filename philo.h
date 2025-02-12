@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:30:00 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/12 08:16:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/12 14:02:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # include <pthread.h> // mutex: init destroy lock unlock
 					  // thread: create join detach
 # include <sys/time.h> // gettimeofday
+
+typedef enum	e_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH,
+}		t_opcode;
 
 typedef pthread_mutex_t t_mtx;
 
@@ -54,5 +65,7 @@ typedef struct s_table
 }				t_table;
 
 void	error_exit(const char *msg);
+void	parse_input(t_table *table, char **av);
+void	*save_malloc(size_t size);
 
 #endif
