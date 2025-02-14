@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:30:00 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/12 14:02:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/14 12:21:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h> // mutex: init destroy lock unlock
 					  // thread: create join detach
 # include <sys/time.h> // gettimeofday
+# include <errno.h> // error handling
 
 typedef enum	e_opcode
 {
