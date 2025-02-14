@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:30:00 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/14 12:21:27 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/14 12:22:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ typedef struct s_table
 	t_philo	*philos;
 }				t_table;
 
-void	error_exit(const char *msg);
-void	parse_input(t_table *table, char **av);
-void	*save_malloc(size_t size);
+void		error_exit(const char *msg);
+void		parse_input(t_table *table, char **av);
+void		*save_malloc(size_t size);
+void		safe_thread_handle(pthread_t *tread, void *(*foo)(void *), void *data, t_opcode opcode);
+void		safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
+static void	handle_mutex_error(int status, t_opcode opcode);
 
 #endif
