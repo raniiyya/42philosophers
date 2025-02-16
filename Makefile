@@ -3,12 +3,19 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror
 RM = rm -f
 SRC = main.c \
-		philo.h
-
+		init.c \
+		parsing.c \
+		safe_functions.c \
+		dinner.c \
+		getters_setters.c \
+		utils.c \
+		sync_utils.c \
+		write.c \
+	
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
-$NAME: $(OBJ)
+$(NAME): $(OBJ)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJ)
 	${MAKE} clean
 
@@ -21,3 +28,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+		
