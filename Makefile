@@ -11,7 +11,7 @@ SRC = main.c \
 		utils.c \
 		sync_utils.c \
 		write.c \
-		monitor.c \
+		monitor.c 
 	
 OBJ = $(SRC:.c=.o)
 
@@ -29,4 +29,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-		
