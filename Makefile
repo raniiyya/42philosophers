@@ -11,6 +11,7 @@ SRC = main.c \
 		utils.c \
 		sync_utils.c \
 		write.c \
+		monitor.c \
 	
 OBJ = $(SRC:.c=.o)
 
