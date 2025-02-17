@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:30:00 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:06:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:31:40 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 					  // thread: create join detach
 # include <sys/time.h> // gettimeofday
 # include <errno.h> // error handling
-
 # define DEBUG_MODE 0
 
 typedef enum	e_status
@@ -54,6 +53,8 @@ typedef	enum	e_time_code
 
 typedef pthread_mutex_t t_mtx;
 
+typedef struct s_table t_table;
+
 typedef struct s_fork
 {
 	t_mtx	*fork;
@@ -75,18 +76,20 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	long	philo_count;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	meals_limit;
-	long	start_time; // time when the simulation started
-	bool	dead; // if a philosopher died or all are full
-	bool	all_threads_ready;
-	t_mtx	*table_mtx;
-	t_mtx	*print_mtx;
-	t_fork	*forks;
-	t_philo	*philos;
+	long		philo_count;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		meals_limit;
+	long		start_time; // time when the simulation started
+	long		threads_running_num;
+	bool		dead; // if a philosopher died or all are full
+	bool		all_threads_ready;
+	pthread_t	monitor;
+	t_mtx		*table_mtx;
+	t_mtx		*print_mtx;
+	t_fork		*forks;
+	t_philo		*philos;
 }				t_table;
 
 void	error_exit(const char *msg);
@@ -103,8 +106,15 @@ long	get_long(t_mtx *mtx, long *src);
 long	gettime(t_time_code time_code);
 bool	get_bool(t_mtx *mtx, bool *src);
 bool	simulation_finished(t_table *table);
+bool	all_threads_running(t_mtx *mtx, long *threads, long philo_num);
 void	wait_all_threads(t_table *table);
 void	precise_usleep(long usec, t_table *table);
 void	write_status(t_philo_status status, t_philo *philo, bool debug);
+void	increase_long(t_mtx *mtx, long *var, long value);
+void	clean(t_table *table);
+void	thinking(t_philo *philo, bool pre_simulation);
+void	*lone_philo(void *arg);
+void	de_sync_philos(t_philo *philo);
+void	*monitor_dinner(void *data);
 
 #endif

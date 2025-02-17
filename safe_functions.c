@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_functions.c                                   :+:      :+:    :+:   */
+/*   safe_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:55:45 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/14 12:20:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:31:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*save_malloc(size_t size)
+void	*safe_malloc(size_t size)
 {
 	void	*ptr;
 
@@ -40,6 +40,24 @@ static void	handle_mutex_error(int status, t_opcode opcode)
 		error_exit("The mutex is locked");
 }
 
+static void	handle_thread_error(int status, t_opcode opcode)
+{
+	if (status == 0)
+		return ;
+	if (status == EAGAIN)
+		error_exit("No resources to create another thread");
+	else if (status == EPERM)
+		error_exit("The caller does not have the permission");
+	else if (status == EINVAL && opcode == CREATE)
+		error_exit("The value specified by attr is invalid");
+	else if (status == EINVAL && (opcode == JOIN || opcode == DETACH))
+		error_exit("The thread is not joinable");
+	else if (status == ESRCH)
+		error_exit("No thread could be found corresponding to that specified by the given thread ID");
+	else if (status == EDEADLK)
+		error_exit("A deadlock was detected or the value of thread specifies the calling thread");
+}
+
 void	safe_thread_handle(pthread_t *tread, void *(*foo)(void *), void *data, t_opcode opcode)
 {
 	if (CREATE == opcode)
@@ -56,13 +74,13 @@ void	safe_thread_handle(pthread_t *tread, void *(*foo)(void *), void *data, t_op
 void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
-		pthread_mutex_lock(mutex);
+		handle_mutex_error(pthread_mutex_lock(mutex), opcode);
 	else if (UNLOCK == opcode)
-		pthread_mutex_unlock(mutex);
+		handle_mutex_error(pthread_mutex_unlock(mutex), opcode);
 	else if (INIT == opcode)
-		pthread_mutex_init(mutex, NULL);
+		handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode);
 	else if (DESTROY == opcode)
-		pthread_mutex_destroy(mutex);
+		handle_mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else
 		error_exit("Invalid mutex opcode");
 }
