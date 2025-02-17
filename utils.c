@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:05:43 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:11:56 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:32:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,28 @@ void	precise_usleep(long usec, t_table *table)
 		elapsed = gettime(MICROSECOND) - start_time;
 		remaining = usec - elapsed;
 		if (remaining > 1e3)
-			usleep(usec / 2);
+			usleep(remaining / 2);
 		else
 			while (gettime(MICROSECOND) - start_time < usec)
 				;
 	}
+}
+
+void	clean(t_table *table)
+{
+	t_philo	*philo;
+	int		i;
+
+	i = -1;
+	while (++i < table->philo_count)
+	{
+		philo = table->philos + i;
+		safe_mutex_handle(philo->philo_mtx, DESTROY);
+	}
+	safe_mutex_handle(table->print_mtx, DESTROY);
+	safe_mutex_handle(table->table_mtx, DESTROY);
+	free(table->forks);
+	free(table->philos);
 }
 
 void	error_exit(const char *msg)
