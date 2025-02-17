@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:53:28 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:08:14 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:43:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	philo_init(t_table *table)
 		philo->meals_count = 0;
 		philo->table = table;
 		safe_mutex_handle(philo->philo_mtx, INIT);
-		assign_fork(philo, table->forks, i);
+		assign_forks(philo, table->forks, i);
 	}
 }
 
@@ -56,7 +56,7 @@ void	data_init(t_table *table)
 	table->forks = safe_malloc(sizeof(t_fork) * table->philo_count);
 	while (++i < table->philo_count)
 	{
-		safe_mutex_handle(&table->forks[i].fork, INIT);
+		safe_mutex_handle(table->forks[i].fork, INIT);
 		table->forks[i].fork_id = i;
 	}
 	philo_init(table);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 17:35:59 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:07:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:44:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 		else if (DIED == status)
 			printf("%-6ld %d died\n", time, philo->id);
 	}
-	safe_mutex_handle(&philo->table->print_mtx, UNLOCK);
+	safe_mutex_handle(philo->table->print_mtx, UNLOCK);
 	
 }

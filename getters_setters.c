@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:12:58 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:08:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/17 12:44:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	set_long(t_mtx *mtx, long *dest, long value)
 
 bool	simulation_finished(t_table *table)
 {
-	return (get_bool(&table->table_mtx, &table->dead));
+	return (get_bool(table->table_mtx, &table->dead));
 }
