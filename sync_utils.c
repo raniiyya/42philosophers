@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:58:38 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/17 12:32:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/23 16:52:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	wait_all_threads(t_table *table)
 {
-	while (!get_bool(table->table_mtx, &table->all_threads_ready))
+	while (!get_bool(&table->table_mtx, &table->all_threads_ready))
 		;
 }
 
@@ -32,10 +32,10 @@ bool	all_threads_running(t_mtx *mtx, long *threads, long philo_num)
 	return (ret);
 }
 
-void	increase_long(t_mtx *mtx, long *var, long value)
+void	increase_long(t_mtx *mtx, long *value)
 {
 	safe_mutex_handle(mtx, LOCK);
-	*var += value;
+	(*value)++;
 	safe_mutex_handle(mtx, UNLOCK);
 }
 
