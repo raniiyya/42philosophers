@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:05:43 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/17 12:32:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/23 16:53:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ long	gettime(t_time_code time_code)
 
 	if (gettimeofday(&tv, NULL))
 		error_exit("gettimeofday failed");
-	if (SECOND == time_code)
+	if (time_code == SECOND)
 		return (tv.tv_sec + tv.tv_usec / 1e6);
-	else if (MILLISECOND == time_code)
+	else if (time_code == MILLISECOND)
 		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (MICROSECOND == time_code)
+	else if (time_code == MICROSECOND)
 		return (tv.tv_sec * 1e6 + tv.tv_usec);
 	else
 		error_exit("Invalid time code");
-	return (0);
+	return (1337);
 		
 }
 
@@ -60,10 +60,10 @@ void	clean(t_table *table)
 	while (++i < table->philo_count)
 	{
 		philo = table->philos + i;
-		safe_mutex_handle(philo->philo_mtx, DESTROY);
+		safe_mutex_handle(&philo->philo_mtx, DESTROY);
 	}
-	safe_mutex_handle(table->print_mtx, DESTROY);
-	safe_mutex_handle(table->table_mtx, DESTROY);
+	safe_mutex_handle(&table->print_mtx, DESTROY);
+	safe_mutex_handle(&table->table_mtx, DESTROY);
 	free(table->forks);
 	free(table->philos);
 }
@@ -72,4 +72,4 @@ void	error_exit(const char *msg)
 {
 	printf("%s\n", msg);
 	exit(EXIT_FAILURE);
-}	
+}
