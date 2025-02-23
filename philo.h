@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:30:00 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/17 12:42:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/23 16:47:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum	e_status
 	THINKING,
 	EATING,
 	SLEEPING,
-	TAKE_FIRS_FORK,
+	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DIED,
 }		t_philo_status;
@@ -57,7 +57,7 @@ typedef struct s_table t_table;
 
 typedef struct s_fork
 {
-	t_mtx	*fork;
+	t_mtx	fork;
 	int		fork_id;
 }			t_fork;
 
@@ -70,7 +70,7 @@ typedef struct s_philo
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	pthread_t	thread_id;
-	t_mtx		*philo_mtx;
+	t_mtx		philo_mtx;
 	t_table		*table;
 }				t_philo;
 
@@ -83,11 +83,11 @@ typedef struct s_table
 	long		meals_limit;
 	long		start_time; // time when the simulation started
 	long		threads_running_num;
-	bool		dead; // if a philosopher died or all are full
+	bool		end_time; // if a philosopher died or all are full
 	bool		all_threads_ready;
 	pthread_t	monitor;
-	t_mtx		*table_mtx;
-	t_mtx		*print_mtx;
+	t_mtx		table_mtx;
+	t_mtx		print_mtx;
 	t_fork		*forks;
 	t_philo		*philos;
 }				t_table;
@@ -122,7 +122,7 @@ void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
 //sync_utils.c
 void	wait_all_threads(t_table *table);
 bool	all_threads_running(t_mtx *mtx, long *threads, long philo_num);
-void	increase_long(t_mtx *mtx, long *var, long value);
+void	increase_long(t_mtx *mtx, long *value);
 void	de_sync_philos(t_philo *philo);
 
 //utils.c
