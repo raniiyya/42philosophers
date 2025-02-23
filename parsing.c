@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:18:11 by rdavurov          #+#    #+#             */
-/*   Updated: 2025/02/16 19:10:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/02/23 16:51:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static const char	*valid_input(const char *str)
 	if (!is_digit(*str))
 		error_exit("Invalid input");
 	number = str;
-	while (is_digit(*str))
+	while (is_digit(*str++))
 		++len;
 	if (len > 10)
 		error_exit("Number is too big");
@@ -51,7 +51,7 @@ static long		ft_atol(const char *str)
 	num = 0;
 	str = valid_input(str);
 	while (is_digit(*str))
-		num = num * 10 + (*str++ - '0');
+		num = (num * 10) + (*str++ - '0');
 	if (num > 2147483647)
 		error_exit("Number is too big");
 	return (num);
@@ -59,7 +59,7 @@ static long		ft_atol(const char *str)
 
 void	parse_input(t_table *table, char **av)
 {
-	table->philo_count = ft_atol(av[1]) * 1e3;
+	table->philo_count = ft_atol(av[1]);
 	table->time_to_die = ft_atol(av[2]) * 1e3;
 	table->time_to_eat = ft_atol(av[3]) * 1e3;
 	table->time_to_sleep = ft_atol(av[4]) * 1e3;
